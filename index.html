@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuidado de la Voz — Universidad de los Andes</title>
+    <meta name="description" content="Guía interactiva para el cuidado e higiene de la voz. Ejercicios, recomendaciones y temporizador integrado. Universidad de los Andes.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── VARIABLES ─────────────────────────── */
+        :root {
+            --yellow: #f2eb0b;
+            --black:  #000000;
+            --white:  #ffffff;
+            --gray-bg: #f7f7f5;
+            --gray-mid: #eeeeea;
+            --gray-text: #555555;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 32px rgba(0,0,0,0.14);
+            --transition: 0.25s cubic-bezier(.4,0,.2,1);
+        }
+
+        /* ── RESET ─────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAVBAR ────────────────────────────── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .navbar-logo img {
+            height: 38px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            line-height: 1.2;
+        }
+        .navbar-brand span {
+            color: var(--yellow);
+        }
+        .navbar-nav {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+        }
+        .navbar-nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+        .navbar-nav a:hover {
+            background: rgba(242,235,11,0.15);
+            color: var(--yellow);
+        }
+        @media (max-width: 640px) { .navbar-nav { display: none; } }
+
+        /* ── HERO ──────────────────────────────── */
+        .hero {
+            background: var(--black);
+            color: var(--white);
+            padding: 64px 24px 0;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(242,235,11,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--black);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+            animation: fadeDown 0.5s ease both;
+        }
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            max-width: 720px;
+            margin: 0 auto 20px;
+            animation: fadeDown 0.6s ease 0.1s both;
+        }
+        .hero h1 span { color: var(--yellow); }
+        .hero-quote {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.65);
+            font-style: italic;
+            max-width: 560px;
+            margin: 0 auto 40px;
+            animation: fadeDown 0.6s ease 0.2s both;
+        }
+        .hero-img-wrap {
+            position: relative;
+            max-width: 860px;
+            margin: 0 auto;
+            animation: fadeUp 0.7s ease 0.3s both;
+        }
+        .hero-img-wrap img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 18px 18px 0 0;
+            display: block;
+        }
+        .hero-img-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 120px;
+            background: linear-gradient(to top, var(--black), transparent);
+            border-radius: 0 0 18px 18px;
+        }
+
+        /* ── PROGRESS BAR / NAV SECUNDARIA ─────── */
+        .section-nav {
+            background: var(--gray-bg);
+            border-bottom: 2px solid var(--gray-mid);
+            padding: 0 24px;
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            overflow-x: auto;
+        }
+        .section-nav a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 16px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--gray-text);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .section-nav a:hover {
+            color: var(--black);
+            border-bottom-color: var(--yellow);
+        }
+        .section-nav a .nav-emoji { font-size: 1rem; }
+
+        /* ── MAIN LAYOUT ────────────────────────── */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        /* ── SECTION HEADER ─────────────────────── */
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .section-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--yellow);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(242,235,11,0.35);
+        }
+        .section-header-text h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .section-header-text p {
+            font-size: 0.9rem;
+            color: var(--gray-text);
+        }
+
+        /* ── BLOCK DIVIDER ──────────────────────── */
+        .content-block {
+            margin-bottom: 70px;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .content-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── ACCORDION ──────────────────────────── */
+        .accordion-item {
+            border: 2px solid var(--gray-mid);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .accordion-item:hover {
+            border-color: var(--yellow);
+        }
+        .accordion-btn {
+            width: 100%;
+            background: var(--white);
+            border: none;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+            transition: var(--transition);
+        }
+        .accordion-btn:hover { background: #fffde8; }
+        .accordion-btn.open { background: var(--black); color: var(--white); }
+        .accordion-num {
+            width: 28px; height: 28px;
+            background: var(--yellow);
+            color: var(--black);
+            border-radius: 50%;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .accordion-btn.open .accordion-num {
+            background: var(--yellow);
+            color: var(--black);
+        }
+        .accordion-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            flex-grow: 1;
+        }
+        .accordion-chevron {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+            color: var(--gray-text);
+        }
+        .accordion-btn.open .accordion-chevron {
+            transform: rotate(180deg);
+            color: var(--white);
+        }
+        .accordion-body {
+            display: none;
+            padding: 0 20px 20px 62px;
+            font-size: 0.93rem;
+            color: #333;
+            line-height: 1.6;
+            background: var(--white);
+            border-top: 1px solid var(--gray-mid);
+        }
+        .accordion-body.open { display: block; }
+
+        /* ── INDICATOR CARDS GRID ───────────────── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 640px) { .cards-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 400px) { .cards-grid { grid-template-columns: 1fr; } }
+
+        .ind-card {
+            background: var(--gray-bg);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            padding: 24px 18px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: default;
+        }
+        .ind-card:hover {
+            border-color: var(--yellow);
+            background: #fffde8;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .ind-card-emoji {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .ind-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+        }
+        .ind-card p {
+            font-size: 0.82rem;
+            color: var(--gray-text);
+            line-height: 1.4;
+        }
+
+        /* ── EXERCISE PANELS ────────────────────── */
+        .exercise-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .ex-tab {
+            padding: 9px 20px;
+            border: 2px solid var(--gray-mid);
+            border-radius: 100px;
+            background: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+        .ex-tab:hover, .ex-tab.active {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+        .ex-panel { display: none; }
+        .ex-panel.active { display: block; }
+
+        .exercise-list-items { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+        .exercise-list-items li {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: var(--gray-bg);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            transition: var(--transition);
+        }
+        .exercise-list-items li:hover {
+            background: #fffde8;
+            transform: translateX(4px);
+        }
+        .ex-num {
+            width: 30px; height: 30px;
+            background: var(--yellow);
+            color: var(--black);
+            border-radius: 50%;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.82rem;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .ex-content strong {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .ex-content p { font-size: 0.88rem; color: #444; }
+        .sound-chip {
+            display: inline-block;
+            background: var(--black);
+            color: var(--yellow);
+            font-family: monospace;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
+        /* ── NECK EXERCISES ─────────────────────── */
+        .neck-wrapper {
+            background: var(--black);
+            border-radius: var(--radius);
+            padding: 32px;
+            color: var(--white);
+        }
+        .neck-intro {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .neck-intro-text {
+            max-width: 440px;
+        }
+        .neck-intro-text p {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.55;
+        }
+
+        /* ── TIMER ──────────────────────────────── */
+        .timer-widget {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-sm);
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-width: 0;
+            flex-wrap: wrap;
+        }
+        .timer-ring-wrap {
+            position: relative;
+            width: 62px; height: 62px;
+            flex-shrink: 0;
+        }
+        .timer-svg {
+            width: 100%; height: 100%;
+            transform: rotate(-90deg);
+        }
+        .timer-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 5; }
+        .timer-progress {
+            fill: none;
+            stroke: var(--yellow);
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 164.9;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.9s linear;
+        }
+        .timer-count {
+            position: absolute;
+            inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+        .timer-meta { flex-grow: 1; }
+        .timer-meta label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.4);
+            display: block;
+            margin-bottom: 3px;
+        }
+        .timer-exercise-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.35;
+        }
+        .btn-timer {
+            background: var(--yellow);
+            color: var(--black);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 8px 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .btn-timer:hover { filter: brightness(0.9); transform: scale(0.97); }
+        .btn-timer.paused { background: #fff; color: var(--black); }
+        .btn-timer.done { background: #22c55e; color: var(--white); }
+
+        /* NECK CARDS */
+        .neck-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        @media (max-width: 640px) { .neck-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 400px) { .neck-grid { grid-template-columns: 1fr; } }
+
+        .neck-card {
+            background: rgba(255,255,255,0.06);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        .neck-card:hover {
+            background: rgba(242,235,11,0.08);
+            border-color: var(--yellow);
+        }
+        .neck-card.active {
+            background: var(--yellow);
+            border-color: var(--yellow);
+        }
+        .neck-card.active * { color: var(--black) !important; }
+        .neck-card-num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .neck-card.active .neck-card-num { color: rgba(0,0,0,0.5) !important; }
+        .neck-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+        .neck-card p {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.4;
+        }
+        .neck-card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* ── REMEDIES ────────────────────────────── */
+        .remedies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 640px) { .remedies-grid { grid-template-columns: 1fr; } }
+
+        .remedy-card {
+            border-top: 4px solid var(--yellow);
+            background: var(--gray-bg);
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+            padding: 22px 20px;
+            transition: var(--transition);
+        }
+        .remedy-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            background: #fffde8;
+        }
+        .remedy-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .remedy-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .remedy-card p { font-size: 0.85rem; color: var(--gray-text); line-height: 1.5; }
+
+        /* ── ALERT BOX ───────────────────────────── */
+        .alert-box {
+            background: #fffde8;
+            border: 2px solid var(--yellow);
+            border-radius: var(--radius-sm);
+            padding: 20px 22px;
+            margin-top: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .alert-icon { font-size: 1.6rem; flex-shrink: 0; }
+        .alert-box h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .alert-box p { font-size: 0.88rem; color: #333; line-height: 1.5; }
+
+        /* ── PROFESSOR IMAGE SECTION ─────────────── */
+        .classroom-section {
+            background: var(--gray-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 260px;
+            margin-bottom: 70px;
+        }
+        @media (max-width: 600px) { .classroom-section { grid-template-columns: 1fr; } }
+        .classroom-text {
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+        }
+        .classroom-text h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+        .classroom-text h3 span { 
+            display: inline-block;
+            background: var(--yellow);
+            padding: 0 4px;
+        }
+        .classroom-text p {
+            font-size: 0.9rem;
+            color: var(--gray-text);
+            line-height: 1.55;
+        }
+        .classroom-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 200px;
+            display: block;
+        }
+
+        /* ── FOOTER ──────────────────────────────── */
+        footer {
+            background: var(--black);
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 0.82rem;
+        }
+        footer strong { color: var(--yellow); }
+
+        /* ── ANIMATIONS ──────────────────────────── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── PRINT ───────────────────────────────── */
+        @media print {
+            .navbar, .section-nav { display: none !important; }
+            .content-block { opacity: 1 !important; transform: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════ NAVBAR ════════════ -->
+<nav class="navbar">
+    <div class="navbar-logo">
+        <img src="imagenes/Logo-Universidad-de-los-Andes.png" alt="Logo Uniandes">
+    </div>
+    <ul class="navbar-nav">
+        <li><a href="#recomendaciones">📋 Antes de clase</a></li>
+        <li><a href="#indicaciones">🧘 Indicaciones</a></li>
+        <li><a href="#ejercicios">🎙️ Ejercicios</a></li>
+        <li><a href="#cuello">🔄 Cuello</a></li>
+        <li><a href="#hombros">💪 Hombros</a></li>
+        <li><a href="#cuidados">💊 Cuidados</a></li>
+    </ul>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<section class="hero">
+    <span class="hero-tag">🎤 Guía Interactiva de Salud Vocal</span>
+    <h1>Cuida tu <span>voz</span>,<br>cuida tu clase.</h1>
+    <p class="hero-quote">"Una voz que está fría no tiene la misma flexibilidad para la demanda vocal rutinaria."</p>
+    <div class="hero-img-wrap">
+        <img src="imagenes/persona hablando.jpg" alt="Persona hablando en clase">
+        <div class="hero-img-overlay"></div>
+    </div>
+</section>
+
+<!-- ════════════ SECTION NAV ════════════ -->
+<nav class="section-nav">
+    <a href="#recomendaciones"><span class="nav-emoji">📋</span> Antes de clase</a>
+    <a href="#indicaciones"><span class="nav-emoji">🧘</span> Indicaciones</a>
+    <a href="#ejercicios"><span class="nav-emoji">🎙️</span> Ejercicios</a>
+    <a href="#cuello"><span class="nav-emoji">🔄</span> Cuello</a>
+    <a href="#hombros"><span class="nav-emoji">💪</span> Hombros</a>
+    <a href="#cuidados"><span class="nav-emoji">💊</span> Cuidados</a>
+</nav>
+
+<!-- ════════════ MAIN ════════════ -->
+<main class="main-content">
+
+    <!-- ─── SECCIÓN 1: RECOMENDACIONES ─── -->
+    <section id="recomendaciones" class="content-block">
+        <div class="section-header">
+            <div class="section-icon">📋</div>
+            <div class="section-header-text">
+                <h2>Antes de iniciar las clases</h2>
+                <p>9 recomendaciones clave para preparar tu voz. Haz clic en cada una para ver el detalle.</p>
+            </div>
+        </div>
+
+        <!-- Accordion -->
+        <div class="accordion-list">
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)" id="acc1">
+                    <span class="accordion-num">1</span>
+                    <span class="accordion-label">💧 Hidratación antes de empezar</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Hidratar con <strong>agua al clima</strong> media hora antes del inicio de las clases y cada 15 minutos durante la divulgación de la información. La hidratación mantiene las cuerdas vocales lubricadas y reduce la fricción.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">2</span>
+                    <span class="accordion-label">🔥 Calentamiento vocal</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Caliente la voz <strong>antes de comenzar su jornada vocal habitual</strong>. Un calentamiento adecuado prepara los músculos laríngeos y reduce el riesgo de fatiga vocal. Dedica al menos 5 minutos a los ejercicios de esta guía.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">3</span>
+                    <span class="accordion-label">🌬️ Ventilación del aula</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Previo al ingreso al aula, <strong>abra la puerta del salón</strong> y permita su ventilación. El aire seco y poco circulado puede resecar las mucosas respiratorias y afectar la voz.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">4</span>
+                    <span class="accordion-label">📍 Ubicación estratégica</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    De acuerdo al número de asistentes, analice la <strong>mejor posición en el aula</strong> para transmitir el conocimiento sin necesidad de forzar la voz. El eje central del salón suele ser el punto de mayor proyección vocal.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">5</span>
+                    <span class="accordion-label">🔇 Control acústico del entorno</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Controlar voces o sonidos externos que impliquen <strong>incrementar la intensidad de la voz</strong> innecesariamente. El ruido ambiental es uno de los principales causantes de abuso vocal en docentes.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">6</span>
+                    <span class="accordion-label">🧍 Postura corporal adecuada</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Controlar la postura corporal, permitiendo una <strong>ingesta de aire adecuada</strong>. Mantenga los hombros relajados, la espalda erguida y la cabeza alineada con la columna para optimizar el flujo de aire.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">7</span>
+                    <span class="accordion-label">🤝 Participación y pausas</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    En lo posible cuente con la <strong>participación de los alumnos</strong> y propicie periodos de pausa para la voz. Las pausas activas de 2-3 minutos protegen las cuerdas vocales durante sesiones largas.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">8</span>
+                    <span class="accordion-label">🔊 Soporte tecnológico</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Apoyo en <strong>herramientas tecnológicas de amplificación</strong> si es necesario. Micrófonos y sistemas de sonido reducen drásticamente el esfuerzo vocal en auditorios o salones grandes.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                    <span class="accordion-num">9</span>
+                    <span class="accordion-label">💧 Hidratación durante la clase</span>
+                    <span class="accordion-chevron">▾</span>
+                </button>
+                <div class="accordion-body">
+                    Durante la clase tome <strong>pequeños sorbos de agua al clima</strong> de forma constante. Evite bebidas frías, gaseosas o con cafeína que pueden deshidratar o irritar la mucosa.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CLASSROOM IMAGE BANNER ─── -->
+    <div class="classroom-section">
+        <div class="classroom-text">
+            <h3>El docente<br><span>es su voz.</span></h3>
+            <p>Una herramienta que usas cada día, pero que pocas veces cuidas. Con los ejercicios correctos, puedes extender su vida útil y enseñar con plena energía.</p>
+        </div>
+        <div class="classroom-img">
+            <img src="imagenes/profesor-hablando-con-los-estudiantes-en-clase.webp" alt="Profesor hablando con estudiantes en clase">
+        </div>
+    </div>
+
+    <!-- ─── SECCIÓN 2: INDICACIONES ─── -->
+    <section id="indicaciones" class="content-block">
+        <div class="section-header">
+            <div class="section-icon">🧘</div>
+            <div class="section-header-text">
+                <h2>Indicaciones Iniciales</h2>
+                <p>Prepara tu cuerpo antes del calentamiento vocal. Estos 6 puntos son la base.</p>
+            </div>
+        </div>
+
+        <div class="cards-grid">
+            <div class="ind-card">
+                <span class="ind-card-emoji">🏛️</span>
+                <h3>Postura adecuada</h3>
+                <p>Brazos ubicados lateralmente, espalda recta y alineada.</p>
+            </div>
+            <div class="ind-card">
+                <span class="ind-card-emoji">😌</span>
+                <h3>Mantén tranquilidad</h3>
+                <p>Evita tensión muscular en cuello y espalda. Relaja hombros.</p>
+            </div>
+            <div class="ind-card">
+                <span class="ind-card-emoji">👃</span>
+                <h3>Toma de aire</h3>
+                <p>Revisión de la toma de aire equilibrada por cada fosa nasal.</p>
+            </div>
+            <div class="ind-card">
+                <span class="ind-card-emoji">🚫</span>
+                <h3>Control de hombros</h3>
+                <p>Evita el movimiento de hombros durante la toma de aire.</p>
+            </div>
+            <div class="ind-card">
+                <span class="ind-card-emoji">🫁</span>
+                <h3>Conciencia abdominal</h3>
+                <p>Deposita aire en el abdomen: es la catapulta del aire para las cuerdas vocales.</p>
+            </div>
+            <div class="ind-card">
+                <span class="ind-card-emoji">⛔</span>
+                <h3>Evita aire residual</h3>
+                <p>No uses el aire residual en la fonación para evitar la fatiga vocal.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── SECCIÓN 3: EJERCICIOS ─── -->
+    <section id="ejercicios" class="content-block">
+        <div class="section-header">
+            <div class="section-icon">🎙️</div>
+            <div class="section-header-text">
+                <h2>Ejercicios de Fonación</h2>
+                <p>Selecciona la categoría y practica cada ejercicio en orden para un calentamiento completo.</p>
+            </div>
+        </div>
+
+        <div class="exercise-tabs">
+            <button class="ex-tab active" onclick="switchTab('tono', this)">💪 Tono Muscular</button>
+            <button class="ex-tab" onclick="switchTab('fonacion', this)">🎵 Fonación</button>
+        </div>
+
+        <!-- Panel: Tono Muscular -->
+        <div class="ex-panel active" id="panel-tono">
+            <p style="margin-bottom: 18px; font-size: 0.9rem; color: var(--gray-text);">Relajación y preparación de órganos fonoarticuladores:</p>
+            <ul class="exercise-list-items">
+                <li>
+                    <span class="ex-num">1</span>
+                    <div class="ex-content">
+                        <strong>💋 Besos al aire</strong>
+                        <p>Envío de besos al aire de manera activa y repetida. Activa labios y mejillas.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ex-num">2</span>
+                    <div class="ex-content">
+                        <strong>👄 Apertura mandibular</strong>
+                        <p>Abrir y cerrar la boca de forma exagerada con la lengua ubicada y apoyada en la base.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ex-num">3</span>
+                    <div class="ex-content">
+                        <strong>😬 Trinar labios</strong>
+                        <p>Trinar labios de forma continua imitando un motor: <span class="sound-chip">brrrrrrrr</span></p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ex-num">4</span>
+                    <div class="ex-content">
+                        <strong>🔤 Vocales exageradas</strong>
+                        <p>Articulaciones marcadas de las vocales: <span class="sound-chip">i – o – u</span></p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ex-num">5</span>
+                    <div class="ex-content">
+                        <strong>🫧 Flexibilidad labial</strong>
+                        <p>Soplar para inflar un globo, bostezar ampliamente, silbar sutilmente o masticar la letra <span class="sound-chip">m</span> de forma exagerada.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Panel: Fonación -->
+        <div class="ex-panel" id="panel-fonacion">
+            <p style="margin-bottom: 18px; font-size: 0.9rem; color: var(--gray-text);">Activación del diafragma y calentamiento laríngeo:</p>
+            <ul class="exercise-list-items">
+                <li>
+                    <span class="ex-num">1</span>
+                    <div class="ex-content">
+                        <strong>🎵 Resonancia con 'M'</strong>
+                        <p>Emitir continuamente <span class="sound-chip">mmmmmmmmmm</span> y añadir una vocal ligada: <span class="sound-chip">mmmmmeeee</span> <span class="sound-chip">mmmmmiiii</span> <span class="sound-chip">mmmmmoooo</span> <span class="sound-chip">mmmmmuuuu</span> (trabajo del diafragma).</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ex-num">2</span>
+                    <div class="ex-content">
+                        <strong>🌀 Trino de lengua con 'R'</strong>
+                        <p>Sustituye la "m" por la "r" para trabajar músculos laríngeos. Trinar lengua en <span class="sound-chip">rrrrrrrrrrrr</span> y enlazar con vocales: <span class="sound-chip">Rrrrre</span> <span class="sound-chip">rrrrri</span> <span class="sound-chip">rrrrro</span> <span class="sound-chip">rrrrru</span>.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="ex-num">3</span>
+                    <div class="ex-content">
+                        <strong>⚡ Articulación ágil</strong>
+                        <p>Pronunciar de manera rítmica, continua y ágil la secuencia: <span class="sound-chip">Taka, taka, taka, taka...</span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ─── SECCIÓN 4: CUELLO ─── -->
+    <section id="cuello" class="content-block">
+        <div class="section-header">
+            <div class="section-icon">🔄</div>
+            <div class="section-header-text">
+                <h2>Ejercicios para Cuello</h2>
+                <p>Alivia la tensión cervical y muscular alrededor de la laringe. Selecciona una ficha y usa el temporizador.</p>
+            </div>
+        </div>
+
+        <div class="neck-wrapper">
+            <!-- Intro + Timer -->
+            <div class="neck-intro">
+                <div class="neck-intro-text">
+                    <p>Estos movimientos ayudan a aliviar la tensión cervical y muscular circundante a la laringe. Haz clic en cualquiera de las 6 fichas para activar el asistente de tiempo — <strong style="color:rgba(255,255,255,0.9)">20 segundos por estiramiento.</strong></p>
+                </div>
+
+                <div class="timer-widget">
+                    <div class="timer-ring-wrap">
+                        <svg class="timer-svg" viewBox="0 0 62 62">
+                            <circle class="timer-bg" cx="31" cy="31" r="26"/>
+                            <circle class="timer-progress" id="js-ring" cx="31" cy="31" r="26"/>
+                        </svg>
+                        <span class="timer-count" id="js-count">20</span>
+                    </div>
+                    <div class="timer-meta">
+                        <label id="js-ex-label">Ejercicio</label>
+                        <div class="timer-exercise-name" id="js-ex-name">Selecciona una ficha →</div>
+                    </div>
+                    <button class="btn-timer" id="js-btn" onclick="toggleTimer()">Iniciar</button>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="neck-grid">
+                <div class="neck-card" onclick="selectNeck(1,'Giro hacia el hombro',this)">
+                    <span class="neck-card-num">Ejercicio 01</span>
+                    <span class="neck-card-icon">↩️</span>
+                    <h4>Giro hacia el hombro</h4>
+                    <p>Mentón al hombro con espalda derecha. Sostén 20s.</p>
+                </div>
+                <div class="neck-card" onclick="selectNeck(2,'Oreja al hombro',this)">
+                    <span class="neck-card-num">Ejercicio 02</span>
+                    <span class="neck-card-icon">↔️</span>
+                    <h4>Oreja al hombro</h4>
+                    <p>Inclina la cabeza lateralmente sin elevar los hombros. 20s.</p>
+                </div>
+                <div class="neck-card" onclick="selectNeck(3,'Mentón al pecho',this)">
+                    <span class="neck-card-num">Ejercicio 03</span>
+                    <span class="neck-card-icon">⬇️</span>
+                    <h4>Mentón al pecho</h4>
+                    <p>Flexión de mentón al pecho 20s y extensión sutil hacia atrás.</p>
+                </div>
+                <div class="neck-card" onclick="selectNeck(4,'Rotación lenta',this)">
+                    <span class="neck-card-num">Ejercicio 04</span>
+                    <span class="neck-card-icon">🔁</span>
+                    <h4>Rotación lenta</h4>
+                    <p>Rotación controlada de hombro a hombro con mentón abajo. 4 veces.</p>
+                </div>
+                <div class="neck-card" onclick="selectNeck(5,'Presión manual',this)">
+                    <span class="neck-card-num">Ejercicio 05</span>
+                    <span class="neck-card-icon">🤲</span>
+                    <h4>Presión manual</h4>
+                    <p>Presión sutil asistida con las manos en la nuca hacia abajo. 20s.</p>
+                </div>
+                <div class="neck-card" onclick="selectNeck(6,'Estiramiento asistido',this)">
+                    <span class="neck-card-num">Ejercicio 06</span>
+                    <span class="neck-card-icon">🙆</span>
+                    <h4>Estiramiento asistido</h4>
+                    <p>Elongación lateral del cuello asistida con la mano. 20s.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── SECCIÓN 5: EJERCICIOS HOMBROS ─── -->
+    <section id="hombros" class="content-block">
+        <div class="section-header">
+            <div class="section-icon">💪</div>
+            <div class="section-header-text">
+                <h2>Ejercicios para Hombros</h2>
+                <p>Libera la tensión acumulada en hombros y parte superior del cuerpo. Sostén cada posición el tiempo indicado.</p>
+            </div>
+        </div>
+
+        <ul class="exercise-list-items">
+            <li>
+                <span class="ex-num">1</span>
+                <div class="ex-content">
+                    <strong>🔄 Círculos con los hombros</strong>
+                    <p>Con la espalda derecha, realiza círculos con tus hombros: <strong>10 hacia adelante</strong> y <strong>10 hacia atrás</strong>. Movimiento lento y controlado.</p>
+                </div>
+            </li>
+            <li>
+                <span class="ex-num">2</span>
+                <div class="ex-content">
+                    <strong>🦾 Cruce de brazo sobre el pecho</strong>
+                    <p>Lleva tu brazo por encima de tu cuerpo y empuja con la mano contraria el codo. Sostén esta posición durante <strong>20 segundos</strong>. Repite con el otro brazo.</p>
+                </div>
+            </li>
+            <li>
+                <span class="ex-num">3</span>
+                <div class="ex-content">
+                    <strong>🙆 Tracción de muñeca por detrás</strong>
+                    <p>Toma por atrás de tu cuerpo una de tus muñecas y con la mano contraria hala el brazo suavemente. Sostén durante <strong>20 segundos</strong>. Inclina la cabeza hacia el lado que halas la mano para mayor estiramiento.</p>
+                </div>
+            </li>
+            <li>
+                <span class="ex-num">4</span>
+                <div class="ex-content">
+                    <strong>🤚 Estiramiento de tríceps con asistencia</strong>
+                    <p>Lleva un brazo por detrás de la cabeza y con el otro empuja el codo hacia abajo hasta donde puedas. Mantén la posición <strong>20 segundos</strong>. Repite con el otro brazo.</p>
+                </div>
+            </li>
+            <li>
+                <span class="ex-num">5</span>
+                <div class="ex-content">
+                    <strong>🙏 Entrelazar manos por la espalda</strong>
+                    <p>Lleva un brazo por detrás de la cabeza y el otro crúzalo por detrás de la espalda, tratando de entrelazar las manos. Mantén <strong>20 segundos</strong>. Si no llegas, usa una toalla de apoyo.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ─── SECCIÓN 6: CUIDADOS ─── -->
+    <section id="cuidados" class="content-block">
+        <div class="section-header">
+            <div class="section-icon">💊</div>
+            <div class="section-header-text">
+                <h2>Ten en cuenta: Disfonía y Afonía</h2>
+                <p>Cuando se presente disfonía o afonía ocasional, puedes recurrir a estas opciones naturales.</p>
+            </div>
+        </div>
+
+        <div class="remedies-grid">
+            <div class="remedy-card">
+                <span class="remedy-icon">🍯</span>
+                <h4>Uso del propóleo</h4>
+                <p>Sustancia elaborada con miel de abejas. Actúa como antiséptico, antiviral y antiinflamatorio. Protege las cuerdas vocales.</p>
+            </div>
+            <div class="remedy-card">
+                <span class="remedy-icon">🌼</span>
+                <h4>Infusión de manzanilla o jengibre</h4>
+                <p>Por sus propiedades antiinflamatorias y antisépticas, controlan la inflamación de las cuerdas vocales. Tomar 3 veces al día.</p>
+            </div>
+            <div class="remedy-card">
+                <span class="remedy-icon">🍋</span>
+                <h4>Zumo de limón con miel</h4>
+                <p>Propiedades antisépticas y antibacteriales. Tomar tres cucharadas al día calientes para aliviar la irritación de la garganta.</p>
+            </div>
+        </div>
+
+        <div class="alert-box">
+            <span class="alert-icon">⚠️</span>
+            <div>
+                <h4>Aviso Médico Importante</h4>
+                <p>Si los síntomas asociados a patología vocal son <strong>repetitivos o perduran por más de una semana</strong>, consulte inmediatamente al especialista <strong>Otorrinolaringólogo</strong>. No se automedique.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+    <p><strong>Universidad de los Andes</strong> • Decanatura de Estudiantes • Bogotá, Colombia</p>
+    <p style="margin-top: 6px; font-size: 0.75rem;">Esta guía se ejecuta localmente y no requiere descargas ni instalaciones externas.</p>
+</footer>
+
+<script>
+    /* ─── ACCORDION ─── */
+    function toggleAccordion(btn) {
+        const body = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
+
+        // Cierra todos
+        document.querySelectorAll('.accordion-btn').forEach(b => {
+            b.classList.remove('open');
+            b.nextElementSibling.classList.remove('open');
+        });
+
+        // Abre si estaba cerrado
+        if (!isOpen) {
+            btn.classList.add('open');
+            body.classList.add('open');
+            body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    /* ─── EXERCISE TABS ─── */
+    function switchTab(panel, btn) {
+        document.querySelectorAll('.ex-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.ex-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + panel).classList.add('active');
+    }
+
+    /* ─── TIMER ─── */
+    const DURATION = 20;
+    let timeLeft = DURATION;
+    let interval = null;
+    let running = false;
+
+    const ring = document.getElementById('js-ring');
+    const count = document.getElementById('js-count');
+    const btn = document.getElementById('js-btn');
+    const exLabel = document.getElementById('js-ex-label');
+    const exName = document.getElementById('js-ex-name');
+
+    const circ = 2 * Math.PI * 26; // r=26
+    ring.style.strokeDasharray = circ;
+    ring.style.strokeDashoffset = 0;
+
+    function setRing(pct) {
+        ring.style.strokeDashoffset = circ - (pct / 100) * circ;
+    }
+
+    function selectNeck(num, name, el) {
+        document.querySelectorAll('.neck-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        exLabel.textContent = 'Ejercicio ' + num;
+        exName.textContent = name;
+        resetTimer();
+    }
+
+    function toggleTimer() {
+        running ? pauseTimer() : startTimer();
+    }
+
+    function startTimer() {
+        if (timeLeft <= 0) return;
+        running = true;
+        btn.textContent = 'Pausar';
+        btn.className = 'btn-timer paused';
+
+        interval = setInterval(() => {
+            timeLeft--;
+            count.textContent = timeLeft;
+            setRing((timeLeft / DURATION) * 100);
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                running = false;
+                count.textContent = '✓';
+                btn.textContent = '¡Listo!';
+                btn.className = 'btn-timer done';
+                beep();
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        clearInterval(interval);
+        running = false;
+        btn.textContent = 'Continuar';
+        btn.className = 'btn-timer';
+    }
+
+    function resetTimer() {
+        clearInterval(interval);
+        running = false;
+        timeLeft = DURATION;
+        count.textContent = DURATION;
+        setRing(100);
+        btn.textContent = 'Iniciar';
+        btn.className = 'btn-timer';
+    }
+
+    function beep() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            [{ f: 587, t: 0 }, { f: 880, t: 0.18 }].forEach(({ f, t }) => {
+                const osc = ctx.createOscillator();
+                const g = ctx.createGain();
+                osc.connect(g); g.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(f, ctx.currentTime + t);
+                g.gain.setValueAtTime(0.15, ctx.currentTime + t);
+                g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.45);
+                osc.start(ctx.currentTime + t);
+                osc.stop(ctx.currentTime + t + 0.5);
+            });
+        } catch(e) {}
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.content-block').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
